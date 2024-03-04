@@ -1,0 +1,986 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title></title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+  <link rel="stylesheet" href="css/reveal.css">
+  <link rel="stylesheet" href="css/theme/black.css" id="theme">
+
+  <style type="text/css">
+  li {
+    margin-top: 28px !important;
+    list-style-type: none !important;
+  }
+  ul ul li {
+    margin-top: 16px !important;
+  }
+  * {
+    text-transform: none !important;
+  }
+  a {
+    color: inherit !important;
+  }
+  code {
+    font-size: 90% !important;
+  }
+  .text-center {
+    text-align: center;
+  }
+
+  .reveal section img {
+    border: none;
+    box-shadow: none;
+    background-color: inherit;
+  }
+  .reveal pre code {
+    overflow: inherit !important;
+    max-height: inherit !important;
+    padding: 0 0 20px 20px;
+  }
+
+  .thanks {
+    width: 100%;
+    margin-top: 120px !important;
+    border-radius: 5px;
+    background-color: white;
+  }
+
+  .thanks img {
+    border: 0;
+  }
+
+  .text-left {
+    text-align: left;
+  }
+
+  .text-right {
+    text-align: right;
+  }
+
+  .pull-left {
+    float: left;
+  }
+
+  .pull-right {
+    float: right;
+  }
+
+  section.title h4 {
+    font-weight: normal;
+    font-size: 80%;
+  }
+
+  table.hash-example td {
+    border: none;
+    padding-right: 2em;
+    padding-bottom: 0.8em;
+  }
+
+  table.hash-example tr.good code {
+    color: lightgreen;
+  }
+
+  table.hash-example tr.bad code {
+    color: #ff2222;
+  }
+
+  table.involved {
+    margin-top: 2em;
+  }
+
+  .reveal table td {
+    border: none;
+  }
+  table.involved td {
+    padding-left: 2em;
+    padding-bottom: 0.4em;
+  }
+  .pics td {
+    border-bottom: 0 !important;
+    padding: 0 15px 0 15px !important;
+  }
+
+  .pics img {
+    height: 190px;
+  }
+  </style>
+
+  <!--[if lt IE 9]>
+  <script src="lib/js/html5shiv.js"></script>
+  <![endif]-->
+
+  <script>
+  var link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.type = 'text/css';
+  link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+  document.getElementsByTagName('head')[0].appendChild( link );
+</script>
+</head>
+
+<body>
+  <div class="reveal">
+    <div class="slides">
+      <section class="title" data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+          <div style="text-align: center; margin-top: 90px">
+            <img src="images/logo.svg">
+        </div>
+        <br>
+        <br>
+        <br>
+        <h4 class="pull-left text-left">
+          <br>
+          Olivier Barais 
+          <br>
+          barais@irisa.fr  
+        </h4>
+        <h4 class="pull-right text-right">
+          D'après des slides de la communauté build reproducible
+          <br>
+          https://salsa.debian.org/reproducible-builds/reproducible-presentations/
+        </h4>
+      </section>
+
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+        <h2>Three developers&hellip;</h2>
+      </section>
+
+      <!--
+      I want to tell you three stories about three developers.
+      -->
+
+
+      <section data-background="images/story/6.jpg">
+        <h1>Alice</h1>
+        <!--
+         - Alice Writes a free software used by a lot of people
+         - She also releases binaries online
+         - She also has a sister who has a deep secret
+         - Blackmailed to include a backdoor in the binaries
+        -->
+      </section>
+      <section data-background-color="#f2f6f9">
+        <img src="images/story/browser.png">
+      </section>
+      <section data-background="images/story/4.jpg"></section>
+      <section data-background="images/story/7.jpg"></section>
+      <section data-background-color="#f2f6f9">
+        <img src="images/story/browser2.png">
+      </section>
+
+
+      <section data-background="images/story/1.jpg">
+        <h1>Bob</h1>
+        <!--
+         - This is Bob's computer
+         - Developer for an Linux distribution
+         - He is very good about computer security
+         - Doesn't know his servers have been compromised
+         - Servers are generating compromised binaries that are now part of a distribution
+         - Bob does not know
+        -->
+      </section>
+      <section data-background="images/story/8.jpg"></section>
+      <section data-background="images/story/5.jpg"></section>
+      <section data-background="images/story/5b.jpg"></section>
+
+
+      <section data-background="images/story/10.jpg">
+        <h1 style="margin-right: -800px">&larr; Carol</h1>
+        <!--
+         - This is Eve.
+         - No, *this* is Eve, that is actually Carol
+         - Evil maid
+         - Inserting USB stick; computer now infected; all
+         - Computer
+        -->
+      </section>
+      <section data-background="images/story/3.jpg">
+        <h1 style="margin-right: -700px">Eve &rarr;</h1>
+      </section>
+      <section data-background="images/story/9.jpg"></section>
+
+
+      <section data-background="images/install.jpg" data-background-size="80%" data-background-color="black">
+        <h2>General problem</h2>
+        <br>
+        <p class="fragment">Can view source code for malicious flaws</p>
+        <p class="fragment">But users install pre-compiled packages</p>
+        <br>
+        <p class="fragment text-center" style="font-weight: bold;"><em>Can we trust the compilation process?</em></p>
+      </section>
+
+
+      <!--
+      <section>
+        <ul>
+          <li>Developers</li>
+          <li>Build/server farms</li>
+          <li>Developers' machines</li>
+        </ul>
+      </section>
+      -->
+
+
+      <section data-background="images/screenshots/11.png"></section>
+      <section data-background="images/screenshots/15.png"></section>
+      <section data-background="images/screenshots/01.png"></section>
+      <section data-background="images/screenshots/05.png"></section>
+      <section data-background="images/screenshots/02.png"></section>
+      <section data-background="images/screenshots/07.png"></section>
+      <section data-background="images/screenshots/08.png"></section>
+      <section data-background="images/screenshots/09.png"></section>
+      <section data-background="images/screenshots/10.png"></section>
+      <section data-background="images/screenshots/12.png"></section>
+      <section data-background="images/screenshots/13.png"></section>
+      <section data-background="images/screenshots/14.png"></section>
+      <section data-background="images/screenshots/evilmaid.png"></section>
+      <section data-background="images/screenshots/calgary.png"></section>
+      <section data-background="images/screenshots/06.png"></section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+          <h2>We have a problem.</h2>
+      </section>
+
+      <section class="text-left" data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+        <h2>Solution?</h2>
+        <br>
+        <p class="fragment">1. Start with the same source</p>
+        <p class="fragment">2. Ensure builds always have <u>identical results</u></p>
+        <p class="fragment">3. Compare results</p>
+      </section>
+
+      <section data-transition="none" data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+        <img src="images/sharing/01.png">
+      </section>
+      <section data-transition="none" data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+        <img src="images/sharing/02.png">
+      </section>
+      <section data-transition="none" data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+        <img src="images/sharing/03.png">
+      </section>
+
+      <section class="text-left" data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+        <h2>How does this help?</h2>
+        <br>
+        <p class="fragment text-left">Alice &rarr; Blackmail will be uncovered</p>
+        <p class="fragment text-left">Bob &rarr; Compromise detected</p>
+        <p class="fragment text-left">Carol &rarr; Tampered laptop will be discovered</p>
+        <br>
+        <p class="fragment text-center">
+          <big><strong style="color: lightgreen;">Reduces incentive to attack in the first place</strong></big>
+        </p>
+      </section>
+
+      <section class="text-left" data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+        <p >"Builds with the same dependencies"... ✖</p>
+        <p class="fragment">"Reliable" builds... ✖</p>
+        <br>
+        <p class="fragment text-center">
+          <big><strong style="color: lightgreen;">Identical build results</strong></big>
+        </p>
+      </section>
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+        <h2>Wait&hellip;</h2>
+      </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+        <ul>
+          <li >Dictionary/hash/database ordering</li>
+          <li class="fragment">Parallelism in builds</li>
+          <li class="fragment">Timestamps</li>
+          <li class="fragment">Build paths</li>
+          <li class="fragment">Non-deterministic file ordering</li>
+          <li class="fragment">Users, groups, <code>umask</code>, environment variables, etc.</li>
+        </ul>
+      </section>
+
+      <section data-background="images/difficult.jpg" data-background-color="black">
+          <h2>No doubt, it is a difficult endeavour</h2>
+          <br><br><br>
+          <br><br><br>
+      </section>
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h1>Come back 10 years ago</h1>
+      </section>
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h3>The problem</h3>
+        <ul>
+          <li class="fragment">Source code of free software available</li>
+          <li class="fragment">&hellip;most people install pre-compiled binaries</li>
+          <li class="fragment"><strong>No one really knows how they really correspond (even those building those binaries).</strong></li>
+          <li class="fragment">As a result there are various classes of supply chain attacks.</li>
+        </ul>
+      </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>some ancient history (>10 years ago)</h2>
+	<ul>
+	<li class="fragment">Thread on debian-devel@lists.debian.org from 2007. Deemed undoable by many.</li>
+	</ul>
+	</section>
+ 
+
+      <section data-background-color="white" data-transition="none">
+        <img src="images/fosdem2014-3.png" width="100%">
+      </section>
+      <section data-background-color="white" data-transition="none">
+        <img  src="images/fosdem2014-4.png" width="100%">
+      </section>
+      <section data-background-color="white" data-transition="none">
+        <img src="images/fosdem2014-5.png" width="100%">
+      </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>Ancient history (>10 years ago)</h2>
+	<ul>
+	<li>Thread on debian-devel@lists.debian.org from 2007. Deemed undoable by many.</li>
+	<li class="fragment">Before that a similar idea appeared in 2000 on debian-devel@l.d.o.</li>
+	<li class="fragment">And then in 2017 we learned from John Gilmore on rb-general@lists.reproducible-builds.org that GCC was reproducible in the early 1990s on several architectures!</li>
+	</ul>
+	</section>
+ 
+ 
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>Fast forward to 2023</h2>
+	<ul>
+   	<p class="fragment">https://lists.zx2c4.com/pipermail/wireguard/2023-April/008045.html
+	<br />Wireguard (VPN app for Android) builds are now reproducible, their release is identical on their website, Google Play Store and F-Droid. 🎯🎯🎯🥳
+	<br />(it's more complicated than that, see their mail.)</p>
+   	<p class="fragment">We were not even informed. 🥲  People just do reproducible builds as normal part of their work nowadays. 🤗</p>
+	</ul>
+	</section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+	<h3>People just do reproducible builds as normal part of their work nowadays.<h3>
+   	<p style="font-size: 500%">🤗</p>
+	
+	</section>
+
+  <section data-background-color="white">
+        <img src="images/logo.png" width="584">
+      </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h3>
+	  https://reproducible-builds.org/docs/definition/
+	</h3>
+        <ul>
+          <li style="font-size: 80%">When is a build reproducible?</li>
+          <li class="fragment">A build is reproducible if given the same source code, build environment and build instructions, any party can recreate bit-by-bit identical copies of all specified artifacts.</li>
+          <li class="fragment" style="font-size: 80%">The relevant attributes of the build environment, the build instructions and the source code as well as the expected reproducible artifacts are defined by the authors or distributors. The artifacts of a build are the parts of the build results that are the desired primary output.<li>
+
+        </ul>
+      </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h3>Reproducible build mission</h3>
+        <ul>
+          <li>Enable anyone to independently verify that a given source produces bit by bit identical results.</li>
+          <li class="fragment">Reproducible Builds are an important building block in making supply chains more secure. Nothing more, nothing less.</li>
+          <li class="fragment">(Un)secure software build reproducibly still remains (un)secure software. However, with reproducible builds you can be sure that you are running the software you want to be running, built from the sources you want to be using.</li>
+        </ul>
+      </section>
+
+      <section data-background-color="white">
+        <img src="images/fosdem2014-2.png" width="100%">
+      </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h4>By 2024 Reproducible Builds has been widely understood:</h4>
+	<ul>
+	<li>
+		<br><span class="fragment" style="font-size: 100%">https://reproducible-builds.org/resources/
+	<br>https://reproducible-builds.org/docs/
+<br>https://reproducible-builds.org/docs/publications/</span></li>
+	<li><span class="fragment" style="font-size: 70%">https://www.whitehouse.gov/briefing-room/statements-releases/2021/06/08/...</span></li>
+     	<ul class="fragment" style="font-size: 70%">
+		<li><u>requires</u> "Software Bill of Material" (SBOM)s for govermental software</li>
+		<li>so far only <u>recommends</u> reproducible builds / <b>verified</b> SBOMs</li>
+	</ul></ul>
+ </section>
+
+
+     <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>How did we get there?</h2>
+	<li class="fragment">Money</li>
+	<li class="fragment">Edward Snowden</li>
+	</section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>Why money?</h2>
+	<li class="fragment">Bitcoin</li>
+	<li class="fragment">Bitcoin (the software) was made reproducible in 2011.</li>
+	</section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>Why Snowden</h2>
+	<li class="fragment">Well...</li>
+	<li class="fragment">Torbrowser was made reproducible in 2013 by Mike Perry.</li>
+	<li class="fragment">That's Firefox. One of the biggest software projects in the world.</li>
+	</section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>How did we <i>really</i> get there?</h2>
+	<li>Money / Bitcoin</li>
+	<li>Edward Snowden / Torbrowser</li>
+	<li class="fragment">...and a LOT of work by MANY people over MANY years.</li>
+	</section>
+
+      <section data-background-color="white">
+        <img  src="images/fosdem2014-6.png" width="100%">
+      </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>2013 and 2014</h2>
+	<ul>
+	<li>Lunar hosted a brainstorming meeting at DebConf13.</li>
+	<li class="fragment">and another one at DebConf14</li>
+	<li class="fragment">patches for <code>dpkg</code>: sorting fixes and .buildinfo files (SBOM!)</li>
+	<li class="fragment">in September 2014 I started systematic builds of Debian packages, twice. First just 100 packages, then all of them.</li>
+	<li class="fragment">Mike Perry and Seth Schoen gave a presentation at CCCongress in December 2014 showing "my" graphs. Wow.</li>
+	</ul>
+	</section>
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <img src="images/ccc2014-1.png">
+      </section>
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <img src="images/ccc2014-2.png">
+      </section>
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <img src="images/ccc2014-3.png">
+      </section>
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <img src="images/ccc2014-4.png">
+      </section>
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <img src="images/ccc2014-5.png">
+      </section>
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <img src="images/ccc2014-6.png">
+      </section>
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <img src="images/ccc2014-7.png">
+      </section>
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <img src="images/ccc2014-8.png">
+      </section>
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <img src="images/ccc2014-9.png">
+      </section>
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <img src="images/ccc2014-10.png">
+      </section>
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <img src="images/ccc2014-11.png">
+      </section>
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <img src="images/ccc2014-12.png">
+      </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+	<h3>Debian unstable, 20150131</h3>
+	<img src="images/stats_pkg_state_20150131.png">
+	</section>
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>2015</h2>
+	<li class="fragment">FOSDEM talk by Lunar and Holger Levsen, inviting the free software world to collaborate and tackle this problem.</li>
+	<li class="fragment">CCCamp presentation by Lunar, showing many problems and their solutions.</li>
+	<li class="fragment">1st Reproducible Builds Summit in Athens.</li>
+	<li class="fragment">SOURCE_DATE_EPOCH spec</li>
+	<li class="fragment">diffoscope</li>
+	</section>
+
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>Common reasons for unreproducibilities:</h2>
+	<li class="fragment">timestamps, timestamps, timestamps<li>
+	<li class="fragment">timestamps, timestamps, timestamps<li>
+	<li class="fragment">build paths, build paths<li>
+	<li class="fragment">all the rest</li>
+	</section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>SOURCE_DATE_EPOCH</h2>
+	<ul>
+	<li>Who knows about SOURCE_DATE_EPOCH?</li>
+	<li class="fragment">Build time stamps are largly meaningless. SOURCE_DATE_EPOCH describes the time of the last modification of the source (in seconds since the Unix epoch).</li>
+	<li class="fragment">Supported by <b>a lot</b> of software today.</li>
+	<li class="fragment">The specification is from 2015 and was updated in 2017.
+	<li class="fragment">https://reproducible-builds.org/docs/source-date-epoch/</li>
+	</ul>
+	</section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>diffoscope</h2>
+	<ul>
+	<li class="fragment">diffoscope tries to get to the bottom of what makes files or directories different. It will recursively unpack archives of many kinds and transform various binary formats into more human-readable form to compare them.</li>
+	</ul>
+	</section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>diffoscope</h2>
+	<li>Text and HTML ouput</li>
+	<li style="font-size: 75%" class="fragment">File formats supported include: Android APK files, Android boot images, Android package resource table (ARSC), Apple Xcode mobile provisioning files, ar(1) archives, ASM Function, Berkeley DB database files, bzip2 archives, character/block devices, ColorSync colour profiles (.icc), Coreboot CBFS filesystem images, cpio archives, Dalvik .dex files, Debian .buildinfo files, Debian .changes files, Debian source packages (.dsc), Device Tree Compiler blob files, directories, ELF binaries, ext2/ext3/ext4/btrfs/fat filesystems, Flattened Image Tree blob files, FreeDesktop Fontconfig cache files, FreePascal files (.ppu), Gettext message catalogues, GHC Haskell .hi files, GIF image files, Git repositories, GNU R database files (.rdb), GNU R Rscript files (.rds), Gnumeric spreadsheets, GPG keybox databases, Gzipped files, Hierarchical Data Format database, HTML files (.html), ISO 9660 CD images, Java class files, Java .jmod modules, JavaScript files,</li>
+	</section>
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>diffoscope</h2>
+	<li style="font-size: 75%">JPEG images, JSON files, Linux kernel images, LLVM IR bitcode files, local (UNIX domain) sockets and named pipes (FIFOs), LZ4 compressed files, lzip compressed files, macOS binaries, Microsoft Windows icon files, Microsoft Word .docx files, Mono ‘Portable Executable’ files, Mozilla-optimized .ZIP archives, Multimedia metadata, OCaml interface files, Ogg Vorbis audio files, OpenOffice .odt files, OpenSSH public keys, OpenWRT package archives (.ipk), PDF documents, PE32 files, PGP signatures, PGP signed/encrypted messages, PNG images, PostScript documents, Public Key Cryptography Standards (PKCS) files (version #7), Python pyc files, RPM archives, Rust object files (.deflate), Sphinx inventory files, SQLite databases, SquashFS filesystems, symlinks, tape archives (.tar), tcpdump capture files (.pcap), text files, TrueType font files, U-Boot legacy image files, WebAssembly binary module, XML binary schemas (.xsb), XML files, XMLB files, XZ compressed files, ZIP archives and Zstandard compressed files.</li>
+	<li class="fragment">Fallback on hexdump comparison, fuzzy-matching to handle renamings, and much more!</li>
+	</section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>diffoscope example output</h2>
+	<li><a href="https-everywhere-5.0.6_vs_5.0.7.html">Example diffoscope output for https-everywhere 5.0.6 vs 5.0.7</a></li>
+	<li class="fragment">https://try.diffoscope.org</li>
+	<li class="fragment">https://diffoscope.org</li>
+	</section>
+
+
+  <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h3>3852 reprodubility related bugs fixed (mostly upstreamed), 301 patches pending...</h3>
+	        <img  src="images/stats_bugs_sin_ftbfs_state.png">
+
+      </section>
+
+  <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h3>32000 bugs in 10 years ~= 8 per day</h3>
+	        <img class="fragment" src="images/stats_bugs_state.png">
+
+      </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>Resources about unreproducibilities:</h2>
+	<ul>
+       	<li>https://reproducible-builds.org/docs/</li>
+	<li class="fragment">422 known issue types in reproducible-notes.git<li>
+	<li class="fragment">Lunar's talk at CCCamp 2015</li>
+ 	<span class="fragment">
+        <li>It's much easier to show common pitfalls making a package unreproducible than the opposite:<ul>
+	<li style="font-size: 85%">https://github.com/bmwiedemann/theunreproduciblepackage</li></ul></li</ul></li>
+        </ul>
+	</span>
+     </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>Detour: some unexpected benefits of reproducible builds</h2>
+	<ul>
+	<li class="fragment">Lower development costs and increased development speed through less developer time wasted on waiting for builds.</li>
+	<li class="fragment">Software development: does this change really have no effect / the desired effect only?</li>
+	<li class="fragment">Licence compliance: you can only be sure a binary is Free Software if it can be (re-)build reproducibly from a given source.</li>
+	<li class="fragment">Reproducible verified SBOMs.</li>
+	</ul>
+	</section>
+
+
+      <section data-background-color="white">
+        <img src="images/logo.png" width="584">
+        <h3>https://reproducible-builds.org</h3>
+      </section>
+
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+          <h2>And after all that effort...<br><span class="fragment">what do we get?</span></h2>
+      </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+        <ul>
+        <ul>
+          <li>Minimal diffs on "deliberate" changes</li>
+          <li class="fragment">Cache ratio &mdash; save time, money &amp; CO<sub>2</sub></li>
+          <li class="fragment">Remove really unused build-dependencies</li>
+          <li class="fragment">Finds bugs!</li>
+        </ul>
+        </ul>
+      </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+        <h3>Random characters in manpages?</h3>
+        <br>
+
+        <pre class="fragment"><code>-This manual page documents the usage<span class="fragment highlight-red">o</span>of WikipediaFS.
++This manual page documents the usage of WikipediaFS.
+</code></pre>
+
+        <pre class="fragment"><code>memcpy(&amp;buf[1], &amp;buf[2], strlen(buf)-1);</code></pre>
+
+        <pre class="fragment"><code>memcpy(3): The memory areas must not overlap</code></pre>
+
+        <pre class="fragment"><code>- memcpy(&amp;buf[1], &amp;buf[2], strlen(buf)-1);
++ memmove(&amp;buf[1], &amp;buf[2], strlen(buf)-1);
+</code></pre>
+
+        <p class="fragment">UB in docbook-to-man for i386: https://bugs.debian.org/842635<br>
+        https://sources.debian.org/src/docbook-to-man/1%3A2.0.0-45/debian/patches/0010-Prevent-undefined-behaviour-in-memcpy-parameter-over.patch/
+        </p>
+      </section>
+
+
+      <section data-background="images/debian.jpg" data-background-color="black">
+        <h2>Debian &amp; Reproducible Builds</h2>
+      </section>
+
+      <section data-background="images/debian.jpg" data-background-color="black">
+          <h3>We have been working in making Debian build reproducibly since 2013</h3>
+    </section>
+      <section data-background="images/debian.jpg" data-background-color="black">
+        <h2 class="fragment">
+          "Torture test"
+        </h2>
+
+        <ul class="fragment">
+          <ul>
+            <li>Time &amp; date</li>
+            <li>Hostname &amp; domain name</li>
+            <li>Filesystem (<code>disorderfs</code>)</li>
+            <li>Timezone &amp; locale</li>
+            <li><code>uid</code> &amp; <code>gid</code></li>
+            <li>Kernel &amp; CPU type</li>
+          </ul>
+        </ul>
+      </section>
+
+      <section data-background="images/debian.jpg" data-background-color="black">
+        <table>
+          <tr><td>First rebuild in 2013</td><td>24% packages reproducible</td></tr>
+          <tr><td>March 2018</td><td>93% packages reproducible</td></tr>
+        </table>
+      </section>
+
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h3>Short summary of Reproducible Debian</h3>
+     </section>
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+	<h3>CI results for Debian trixie, 20240201</h3>
+	<img src="images/stats_pkg_state_trixie_20240201.png">
+	</section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h3>CI reproducibility of Debian amd64</h3>
+		<table>
+		<tr><th>suite</th><th>reproducible</th><th style="font-size: 84%">unreproducible</th><th style="font-size: 88%">fails&nbsp;to&nbsp;build</th><th>other</th></tr>
+<tr>
+<td>stretch</td>
+<td>23040(93.2%)</td>
+<td>1514(6.1%)</td>
+<td>85(0.3%)</td>
+<td>80(0.4%)</td>
+</tr><tr>
+<td>buster</td>
+<td>26653(93.9%)</td>
+<td>1405(4.9%)</td>
+<td>232(0.8%)</td>
+<td>108(0.4%)</td>
+</tr><tr>
+<td>bullseye</td>
+<td>29698(96.2%)</td>
+<td>761(2.5%)</td>
+<td>274(0.9%)</td>
+<td>127(0.4%)</td>
+</tr><tr>
+<td>bookworm</td>
+<td>33240(96.9%)</td>
+<td>670(2.0%)</td>
+<td>260(0.8%)</td>
+<td>124(0.4%)</td>
+</tr><tr>
+<td>trixie</td>
+<td>33399(95.6%)</td>
+<td>619(1.8%)</td>
+<td>673(1.9%)</td>
+<td>135(0.4%)</td>
+</tr>
+</table>
+     </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h3>CI reproducibility of Debian amd64</h3>
+		<table>
+		<tr><th>suite</th><th>reproducible</th><th style="color: #ff0000; font-size: 84%">unreproducible</th><th style="font-size: 88%">fails&nbsp;to&nbsp;build</th><th>other</th></tr>
+<tr>
+<td>stretch</td>
+<td>23040(93.2%)</td>
+<td><span style="color: #ff0000">1514(6.1%)</span></td>
+<td>85(0.3%)</td>
+<td>80(0.4%)</td>
+</tr><tr>
+<td>buster</td>
+<td>26653(93.9%)</td>
+<td><span style="color: #ff0000">1405(4.9%)</span></td>
+<td>232(0.8%)</td>
+<td>108(0.4%)</td>
+</tr><tr>
+<td>bullseye</td>
+<td>29698(96.2%)</td>
+<td><span style="color: #ff0000">761(2.5%)</span></td>
+<td>274(0.9%)</td>
+<td>127(0.4%)</td>
+</tr><tr>
+<td>bookworm</td>
+<td>33240(96.9%)</td>
+<td><span style="color: #ff0000">670(2.0%)</span></td>
+<td>260(0.8%)</td>
+<td>124(0.4%)</td>
+</tr><tr>
+<td>trixie</td>
+<td>33399(95.6%)</td>
+<td><span style="color: #ff0000">619(1.8%)</span></td>
+<td>673(1.9%)</td>
+<td>135(0.4%)</td>
+</tr>
+</table>
+     </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+	<h3>CI results for Debian unstable, 20240201</h3>
+	<img src="images/stats_pkg_state_20240201.png">
+	</section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>Debian policy</h2>
+	<ul>
+    	<li>2017: packages <em>should</em> build reproducibly.</li>
+    	<li class="fragment">2025? reproducible packages <em>must not</em> regress.</li>
+    	<li class="fragment">2025? NEW packages <em>must</em> build reproducibly.</li>
+    	<li class="fragment">2027? packages <em>must</em> build reproducibly.</li>
+	</ul>
+      </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>100%!</h2>
+     	<ul>
+        <li class="fragment">100% reproducible is a political decision and nothing technical.</h3>
+    	<li class="fragment">We need to change <code>debian-policy</code>!</li>
+    	<li class="fragment">We can work around 'must-have-offenders' using whitelists in the beginning.</li>
+    	<li class="fragment">The goal is still 100%, whitelists are just a way to achieve that goal eventually.</li>
+	</ul> 
+</section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h3>future reproducibility of Debian amd64</h3>
+		<table>
+		<tr><th>suite</th><th>reproducible</th><th style="color: #ff0000">unreproducible</th></tr>
+<tr style="font-size: 60%">
+<td>stretch</td>
+<td>23040(93.2%)</td>
+<td><span style="color: #ff0000">1514</span></td>
+</tr><tr style="font-size: 60%">
+<td>buster</td>
+<td>26653(93.9%)</td>
+<td><span style="color: #ff0000">1405</span></td>
+</tr><tr style="font-size: 60%">
+<td>bullseye</td>
+<td>29698(96.2%)</td>
+<td><span style="color: #ff0000">761</span></td>
+</tr><tr style="font-size: 60%">
+<td>bookworm</td>
+<td>33240(96.9%)</td>
+<td><span style="color: #ff0000">670</span></td>
+</tr><tr>
+<td>trixie</td>
+<td>36000</td>
+<td><span style="color: #ff0000">256</span></td>
+</tr><tr>
+<td>forky</td>
+<td>40000</td>
+<td><span style="color: #ff0000">77</span></td>
+</tr><tr>
+</tr><tr>
+<td>forky+1</td>
+<td>45000</td>
+<td><span style="color: #ff0000">42</span></td>
+</tr><tr>
+<td>forky+2</td>
+<td>50000</td>
+<td><span style="color: #00ff00">0</span></td>
+</tr><tr>
+
+</tr>
+</table>
+     </section>
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h2>Debian <em>testing</em> migration</h2>
+	<ul style="font-size: 94%">
+	<li>Since the end of 2023, CI reproducible-builds results are included in the excuses output for Debian testing migration, but there is no penalty nor bonus yet.</li>
+	<li>In 2025 for Debian 14 "<em>forky</em>" however there should penalties for violating:
+	<ul>
+    		<li class="fragment">reproducible packages <em>must not</em> regress (to be allowed into <code>testing</code> and therefore into <code>stable</code>).</li>
+    		<li class="fragment">NEW packages <em>must</em> build reproducibly (to be allowed into <code>testing</code> and therefore into <code>stable</code>).</li>
+	</ul>
+    	<li class="fragment">At first there could  be whitelisting of some needed packages, but less over time until we can drop those exceptions.</li>
+	</ul>
+      </section>
+
+
+
+  <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h4>rebuilders https://beta.tests.reproducible-builds.org/debian</br>(these are not CI builds anymore)s</h4>
+	        <img src="images/bookworm_full.amd64+all.png">
+      </section>
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h3>100% reproducibility in theory is not enough,<span style="font-size: 140%"> by far.</span></h3>
+     	<ul>
+    	<li>Then we need rebuilders.</li>
+	<li class="fragment">Thus we need a working <code>snapshot.debian.org</code> service.</li>
+	<li class="fragment">Without snapshot.d.o we cannot recreate the exact same environments...</li>
+	<li class="fragment">but snapshot is buggy: #1050815, #1031628, #1029744, #1034000, #1012559, #979115, #969603… </li>
+	<li class="fragment">And there we have been stuck for more than five years...</li>
+	</ul> 
+      </section>
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h3>an idea at the summit 2023: do we need all of snapshot.d.o?</h3>
+     	<ul>
+        <li>70000 binary packages in Debian $suite</li>
+    	<li>these build-depend on only 30000 packages, so 40000 packages are never used as build-depends.</li>
+    	<li class="fragment">let's analyze all those <em>.buildinfo</em> files!</li>
+    	<li class="fragment">those 30000 packages are only used in 100000 variations!</li>
+	<li class="fragment">that's less than 100 GB per arch and suite!</li>
+	<li class="fragment">https://rebuilder-snapshot.debian.net was born.</li>
+	</ul> 
+      </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+       	<h3>https://rebuilder-snapshot.debian.net</h3>
+     	<ul>
+        <li>a cache for snapshot.debian.org, which stores only the packages used as build-depends <em>today</em> and makes them available via SHA256, path and an API.</li>
+	<li class="fragment">each arch takes roughly a week to seed from snapshot.d.o</li>
+	<li class="fragment">each arch only takes hours to seed from another rebuilder-snapshot instance</li>
+	<li class="fragment">we already run two instances and our goal is to allow many instances</li>
+	</ul> 
+      </section>
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+       	<h3>https://rebuilder-snapshot.debian.net</h3>
+     	<ul>
+        <li>a cache in for snapshot.debian.org, which stores only the packages used as build-depends <em>today</em> and makes them available via SHA256, path and an API.</li>
+	<li class="fragment">so <em>debrebuild</em> can use <em>debootsnap</em> together with <em>metasnap</em> to establish trust.</li>
+	<li class="fragment">one blocking bug currently: issue #40</li>
+	<li class="fragment">hopefully usable RSN. Many thanks to lynxis and josch!</li>
+	<li class="fragment">also: snapshot.d.o is still awesome, despite it's flaws today. We need (to fix) it! Many thanks weasel & DSA!</li>
+	</ul> 
+      </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+       	<h3>Debian 2024</h3>
+     	<ul>
+        <li>testing migration can and will be used to enforce policy also in regards of reproducible builds (probably only enforcing for real in 2025...)</li>
+	<li class="fragment">for a sensible setup of that, we need real rebuilders, aiming to rebuild what Debian distributes.</li>
+	<li class="fragment">for that, we need a better working snapshot.d.o, which with rebuilder-snapshot finally is there.</li>
+	<li class="fragment">CI builds will stay, to find issues. Rebuilders are needed to show the absence of issues.</li>
+	</ul> 
+      </section>
+
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+        <h2>Beyond Debian&hellip;</h2>
+        <ul>
+          <li >coreboot, Fedora, LEDE, OpenWRT, NetBSD, FreeBSD, Archlinux, Qubes, F-Droid, NixOS, Guix, Meson, etc.</li>
+          <li class="fragment">Other projects using "Debian"'s testing framework</li>
+          <li class="fragment">Reproducible Builds summits (Athens, Berlin, Paris, Marrakech, Venice, Hamburg)</li>
+        </ul>
+      </section>
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h3>Theory vs Praxis</h3>
+	<ul>
+	<li>In theory, we are done. In practice, we have shown that reproducible builds can be done in theory.</li>
+	<li class="fragment">Now we also need many rebuilders (!= CI builders) and we need to store the results somewhere and we need to define criterias how tools should treat that data, and then we need those tools...</li>
+	<li class="fragment">And those missing 5% are also crucial however, or at least 1% of them. For Debian, 1% means 300 softwares...</li>
+	
+	</ul>
+	</section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <img src="images/ccc2014-13.png">
+      </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%" data-transition="none">
+        <h3>Summary, looking forward</h3>
+	<ul>
+   	<li>Many projects support or aim for reproducible builds today. This is a huge success.</li>
+	<li class="fragment">Next: finish those last 1-5% upstream.</li>
+	<li class="fragment">Next: create infrastructure of rebuilders in practice.</li>
+	<li class="fragment">Next: create infrastructure, processes and tools to securely use those results...</li>
+	<li class="fragment">Next: project-level consensus and commitment to reproducible builds in practice.</li>
+	<li class="fragment">Next: ... !!!</li>
+	</ul>
+     </section>
+
+
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+        <h2>Get involved!</h2>
+        <table class="involved fragment">
+          <tr><td>Visit:</td><td><code><a href="https://reproducible-builds.org/">reproducible-builds.org</a></code></td></tr>
+          <tr><td>Subscribe:</td><td><code>lists.reproducible-builds.org &rarr; rb-general</code></td></tr>
+          <tr><td>Follow:</td><td><strong>@ReproBuilds</strong> on <s>Twitter</s>X</td></tr>
+          <tr><td>Join:</td><td><code>#reproducible-builds</code> (on OFTC)</td></tr>
+        </table>
+
+      </section>
+
+      <section data-background="images/FOSDEM_logo.svg" data-background-size="10%" data-background-position="93% 9%">
+        <br>
+
+        <h1 style="font-size: 1.5em;"><em>Thanks!</em></h1>
+        <br>
+          <div style="text-align: center;">
+            <img src="images/logo.svg">
+        </div>
+        <br>
+        <br>
+
+      </section>
+    </div>
+  </div>
+
+  <script src="lib/js/head.min.js"></script>
+  <script src="js/reveal.js"></script>
+  <script>
+    Reveal.initialize({
+      controls: false,
+      progress: false,
+      history: true,
+      keyboard: {
+        13: 'next',
+        38: 'next',
+         9: 'prev',
+        40: 'prev'
+      }
+    });
+  </script>
+</body>
+</html>
